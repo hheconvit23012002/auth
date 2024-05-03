@@ -35,5 +35,25 @@ class AuthController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
+
+    public function update(Request $request){
+        try {
+            $userLogin = $request->user();
+            User::where('id', $userLogin->id)->update([
+                'email' => $request->get('email') ?? $userLogin->email,
+                'password' => Hash::make($request->get('password')) ?? $userLogin->password,
+                'name' => $request->get('name') ?? $userLogin->name,
+                'phone_number' => $request->get('phone_number') ?? "",
+                'address' => $request->get('address') ?? "",
+                'date_birth' => $request->get('date_birth') ?? $userLogin->date_birth,
+            ]);
+            return response()->json([
+                "success" => true,
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+
+        }
+    }
     //
 }
