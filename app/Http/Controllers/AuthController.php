@@ -21,7 +21,7 @@ class AuthController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
-    public function login(RegisterRequest $request){
+    public function login(Request $request){
         try {
             if(Auth::attempt([
                 'email' => $request->email,
