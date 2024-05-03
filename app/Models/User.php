@@ -26,6 +26,9 @@ class User extends Authenticatable
         'date_birth',
     ];
 
+    const TYPE_ADMIN = 'type-admin';
+    const TYPE_USER = 'type-user';
+
     /**
      * The attributes that should be hidden for serialization.
      *
