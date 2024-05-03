@@ -13,7 +13,9 @@ class AuthController extends Controller
     public function register(RegisterRequest $request){
         try {
             $user = new User();
-            $user->fill($request->all());
+            $user->fill($request->all() + [
+                'type' => User::TYPE_USER
+                ]);
             $user->password = Hash::make($request->password);
             $user->save();
             return response()->json($user, 200);
