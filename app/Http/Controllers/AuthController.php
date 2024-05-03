@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Models\Favourite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,39 @@ class AuthController extends Controller
                 'address' => $request->get('address') ?? "",
                 'date_birth' => $request->get('date_birth') ?? $userLogin->date_birth,
             ]);
+            return response()->json([
+                "success" => true,
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+
+        }
+    }
+
+    public function addToFavorite(Request $request){
+        try {
+            $userLogin = $request->user();
+            $productId = $request->get('product_id');
+
+            Favourite::create([
+                'user_id' => $userLogin->id,
+                'product_id' => $productId,
+            ]);
+            return response()->json([
+                "success" => true,
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+
+        }
+    }
+    public function removeToFavorite(Request $request){
+        try {
+            $userLogin = $request->user();
+            $productId = $request->get('product_id');
+            Favourite::where('user_id', $userLogin->id)
+                ->where('product_id', $productId)
+                ->delete();
             return response()->json([
                 "success" => true,
             ]);

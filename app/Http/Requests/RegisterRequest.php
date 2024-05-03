@@ -26,6 +26,10 @@ class RegisterRequest extends FormRequest
         return [
             'email' => 'required|email',
             'password' => 'required',
+            'name' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+            'date_birth' => 'required',
         ];
     }
     public function failedValidation(Validator $validator) {
