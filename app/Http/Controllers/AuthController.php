@@ -58,5 +58,18 @@ class AuthController extends Controller
 
         }
     }
-    //
+
+    public function getListUser(Request $request){
+        try {
+            $name = $request->get('name') ?? '';
+            $users = User::where('name','like','%'.$name.'%')->get();
+            return response()->json([
+                "success" => true,
+                'data' => $users
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
 }
