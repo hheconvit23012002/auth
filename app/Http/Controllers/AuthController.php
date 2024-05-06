@@ -50,7 +50,7 @@ class AuthController extends Controller
                 'date_birth' => $request->get('date_birth') ?? $userLogin->date_birth,
                 'type' => User::TYPE_USER
             ];
-            if(!is_null($password)){
+            if(!is_null($password) || $password !== ""){
                 $data['password'] = Hash::make($password);
             }
             User::where('id', $userLogin->id)->update($data);
