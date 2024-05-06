@@ -41,15 +41,19 @@ class AuthController extends Controller
     public function update(Request $request){
         try {
             $userLogin = $request->user();
-            User::where('id', $userLogin->id)->update([
+            $password = $request->get('password');
+            $data = [
                 'email' => $request->get('email') ?? $userLogin->email,
-                'password' => Hash::make($request->get('password')) ?? $userLogin->password,
                 'name' => $request->get('name') ?? $userLogin->name,
                 'phone_number' => $request->get('phone_number') ?? "",
                 'address' => $request->get('address') ?? "",
                 'date_birth' => $request->get('date_birth') ?? $userLogin->date_birth,
                 'type' => User::TYPE_USER
-            ]);
+            ];
+            if(!is_null($password)){
+                $data['password'] = Hash::make($password);
+            }
+            User::where('id', $userLogin->id)->update($data);
             return response()->json([
                 "success" => true,
             ]);
