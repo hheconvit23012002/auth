@@ -63,6 +63,28 @@ class AuthController extends Controller
         }
     }
 
+    public function adminUpdate(Request $request, $id){
+        try {
+            $password = $request->get('password');
+            $data = [
+                'email' => $request->get('email') ,
+                'name' => $request->get('name') ,
+                'phone_number' => $request->get('phone_number') ?? "",
+                'address' => $request->get('address') ?? "",
+                'type' => User::TYPE_USER
+            ];
+            if(!is_null($password) && $password !== ""){
+                $data['password'] = Hash::make($password);
+            }
+            User::where('id', $id)->update($data);
+            return response()->json([
+                "success" => true,
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function delete(Request $request){
         try {
             $userId = $request->get('user_id');
