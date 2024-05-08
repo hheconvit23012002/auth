@@ -24,3 +24,4 @@ Route::
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/updateUser',[AuthController::class,'update'])->middleware('auth:api');
+Route::post('/deleteUser',[AuthController::class,'delete'])->middleware('auth:api');

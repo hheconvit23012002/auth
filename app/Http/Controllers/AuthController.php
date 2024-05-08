@@ -63,6 +63,18 @@ class AuthController extends Controller
         }
     }
 
+    public function delete(Request $request){
+        try {
+            $userId = $request->get('user_id');
+            User::where('id', $userId)->delete();
+            return response()->json([
+                "success" => true,
+            ]);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
     public function getListUser(Request $request){
         try {
             $name = $request->get('name') ?? '';
